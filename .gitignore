@@ -1,0 +1,4 @@
+/app/local.settings.php
+vendor/
+log/*
+cache/*

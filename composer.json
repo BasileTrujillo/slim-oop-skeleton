@@ -1,0 +1,23 @@
+{
+    "name": "l0gin/slim-3-mdl-skeleton",
+    "description": "Slim Framework 3 skeleton with Twig, Monolog, Front & Back office template based on MDL.",
+    "type": "project",
+    "keywords": ["slim-framework", "skeleton"],
+    "authors": [
+        {
+            "name": "L0gIn",
+            "homepage": "https://bitbucket.org/L0gIn"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/src"
+        }
+    },
+    "require": {
+        "slim/slim": "^3.0",
+        "slim/twig-view": "^2.0",
+        "slim/flash": "^0.1.0",
+        "monolog/monolog": "^1.13"
+    }
+}
