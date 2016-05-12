@@ -37,10 +37,29 @@ $container['logger'] = function ($c) {
     return $logger;
 };
 
+// PDO
+$container['pdo'] = function ($c) {
+    $settings = $c->get('settings');
+    try {
+        $db = new PDO(
+            $settings['pdo']['driver'].':dbname='.$settings['pdo']['database'].';host='.$settings['pdo']['host'],
+            $settings['pdo']['user'],
+            $settings['pdo']['passwd']
+        );
+    } catch (PDOException $e) {
+        throw new \Exception('DB conection failed : ' . $e->getMessage());
+    }
+    return $db;
+};
+
 // -----------------------------------------------------------------------------
 // Action factories
 // -----------------------------------------------------------------------------
 
-$container[App\Action\HomeAction::class] = function ($c) {
-    return new App\Action\HomeAction($c->get('view'), $c->get('logger'));
+$container[App\Controller\FrontController::class] = function ($c) {
+    return new App\Controller\FrontController($c->get('view'), $c->get('logger'), $c->get('settings'));
+};
+
+$container[App\Controller\BackController::class] = function ($c) {
+    return new App\Controller\BackController($c->get('view'), $c->get('logger'), $c->get('settings'));
 };

@@ -1,5 +1,8 @@
 <?php
 // Routes
 
-$app->get('/', App\Action\HomeAction::class)
+$app->get('/', 'App\Controller\FrontController:homeAction')
     ->setName('homepage');
+
+$app->get('/admin', 'App\Controller\BackController:dashboardAction')
+    ->setName('dashboard');

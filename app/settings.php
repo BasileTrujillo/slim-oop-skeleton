@@ -15,11 +15,17 @@ $settings = [
             ],
         ],
 
-        // monolog settings
+        // Monolog settings
         'logger' => [
             'name' => 'app',
             'path' => __DIR__ . '/../log/app.log',
         ],
+
+        //Google Analytics
+        'google_analytics' => [
+            'api_key' => false,
+            'anonymize_ip' => false
+        ]
     ],
 ];
 

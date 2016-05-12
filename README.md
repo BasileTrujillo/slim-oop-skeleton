@@ -9,7 +9,7 @@ And include a Front & Back office based on Material Design Lite templates :
 
 ## Create your project:
 
-    $ composer create-project -n -s dev akrabat/slim3-skeleton my-app
+    $ composer create-project -n -s dev l0gin/slim-3-skeleton my-app
 
 ### Run it:
 
@@ -25,6 +25,7 @@ And include a Front & Back office based on Material Design Lite templates :
 * `cache/twig`: Twig's Autocreated cache files
 * `log`: Log files
 * `public`: Webserver root
+* `public/assets`: Public ressources (css, js, img, ...)
 * `vendor`: Composer dependencies
 
 ## Key files
@@ -34,5 +35,10 @@ And include a Front & Back office based on Material Design Lite templates :
 * `app/dependencies.php`: Services for Pimple
 * `app/middleware.php`: Application middleware
 * `app/routes.php`: All application routes are here
-* `app/src/Action/HomeAction.php`: Action class for the home page
-* `app/templates/home.twig`: Twig template file for the home page
+* `app/src/controller/FrontController.php`: Controller class for the home page
+* `app/src/controller/BackController.php`: Controller class for the dashboard page
+* `app/src/core/BaseController.php`: Controller super class
+* `app/templates/layouts/front.twig`: Main Twig template file for front layout pages
+* `app/templates/layouts/back.twig`: Main Twig template file for back layout pages
+* `app/templates/pages/front/*`: Twig template files for front pages
+* `app/templates/pages/back/*`: Twig template files for back pages
