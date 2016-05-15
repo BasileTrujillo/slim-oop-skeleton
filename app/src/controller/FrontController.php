@@ -2,8 +2,8 @@
 namespace App\Controller;
 
 use App\Core\BaseController;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  * Class FrontController
@@ -22,8 +22,6 @@ final class FrontController extends BaseController
      */
     public function homeAction(Request $request, Response $response, $args)
     {
-        $this->logger->info("Home page action dispatched");
-
         $this->render($response, 'pages/front/home.twig');
         return $response;
     }

@@ -4,9 +4,13 @@
  */
 return [
     'settings' => [
+        //Slim Settings
+        'displayErrorDetails' => true,
+
         // PDO settings
         'pdo' => [
             'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
             'database'  => 'foo',
             'user'      => 'bar',
             'passwd'    => 'baz'

@@ -1,53 +1,57 @@
 <?php
 namespace App\Core;
 
-use Psr\Log\LoggerInterface;
+use Monolog\Logger;
+use Slim\Container;
+use Slim\Flash\Messages;
 use Slim\Http\Response;
 use Slim\Views\Twig;
 
 /**
  * Base controller class with functions shared by all controller implementations
- * @author Basile Trujillo
  */
 class BaseController
 {
     /**
-     * @var Twig
+     * @var Twig App View
      */
     protected $view;
 
     /**
-     * @var LoggerInterface
+     * @var Logger Monolog Instance
      */
     protected $logger;
 
     /**
-     * @var Array
+     * @var Messages Slim Flash Message Instance
+     */
+    protected $flash;
+
+    /**
+     * @var array Settings array
      */
     protected $settings;
 
     /**
-     * @var Array
+     * @var array Default data passed throught view renderer
      */
     protected $defaultData;
 
     /**
      * Default controller construct
      *
-     * @param Twig            $view
-     * @param LoggerInterface $logger
-     * @param                 $settings
+     * @param Container $c Slim App Container
      */
-    public function __construct(Twig $view, LoggerInterface $logger, $settings)
+    public function __construct(Container $c)
     {
-        $this->view         = $view;
-        $this->logger       = $logger;
-        $this->settings     = $settings;
+        $this->view         = $c->get('view');
+        $this->logger       = $c->get('logger');
+        $this->flash        = $c->get('flash');
+        $this->settings     = $c->get('settings');
 
         //Default data to pass trought twig tpl
         $this->defaultData = array(
-            'settings'  => $this->settings,
-            //'asset.min' => $this->settings['mode'] == 'production' ? '' : '.min'
+            'settings'  => $this->settings
         );
     }
 

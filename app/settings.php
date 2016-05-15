@@ -29,6 +29,7 @@ $settings = [
     ],
 ];
 
+// Load environement settings
 if (file_exists(__DIR__ . '/local.settings.php')) {
     $local_settings = require __DIR__ . '/local.settings.php';
     $settings = array_replace_recursive($settings, $local_settings);

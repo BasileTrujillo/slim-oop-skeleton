@@ -1,4 +1,5 @@
 /app/local.settings.php
 vendor/
-log/*
-cache/*
+/log/*
+/cache/*
+!.keepme

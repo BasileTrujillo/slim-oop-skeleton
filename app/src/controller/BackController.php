@@ -2,8 +2,8 @@
 namespace App\Controller;
 
 use App\Core\BaseController;
-use Psr\Http\Message\ServerRequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
+use Slim\Http\Request;
+use Slim\Http\Response;
 
 /**
  * Class BackController
@@ -14,16 +14,14 @@ final class BackController extends BaseController
     /**
      * Dashboard renderer
      *
-     * @param Request  $request
-     * @param Response $response
-     * @param array    $args
+     * @param Request  $request     Slim Request
+     * @param Response $response    Slim Response
+     * @param array    $args        Arguments array (GET / POST / ...)
      *
      * @return Response
      */
     public function dashboardAction(Request $request, Response $response, $args)
     {
-        $this->logger->info("Dashbord page action dispatched");
-
         $this->render($response, 'pages/back/dashboard.twig');
         return $response;
     }

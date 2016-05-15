@@ -2,10 +2,13 @@
     "name": "l0gin/slim-3-mdl-skeleton",
     "description": "Slim Framework 3 skeleton with Twig, Monolog, Front & Back office template based on MDL.",
     "type": "project",
-    "keywords": ["slim-framework", "skeleton"],
+    "keywords": ["slim-framework", "skeleton", "boilerplate", "mdl"],
+    "homepage": "https://bitbucket.org/L0gIn/slim-3-mdl-skeleton",
+    "license": "MIT",
     "authors": [
         {
             "name": "L0gIn",
+            "email": "contact@l0gin.fr",
             "homepage": "https://bitbucket.org/L0gIn"
         }
     ],

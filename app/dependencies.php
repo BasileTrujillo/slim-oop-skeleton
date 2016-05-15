@@ -1,6 +1,6 @@
 <?php
-// DIC configuration
 
+// DIC configuration
 $container = $app->getContainer();
 
 // -----------------------------------------------------------------------------
@@ -19,7 +19,7 @@ $container['view'] = function ($c) {
     return $view;
 };
 
-// Flash messages
+// Flash Messages
 $container['flash'] = function ($c) {
     return new Slim\Flash\Messages;
 };
@@ -28,7 +28,7 @@ $container['flash'] = function ($c) {
 // Service factories
 // -----------------------------------------------------------------------------
 
-// monolog
+// Monolog
 $container['logger'] = function ($c) {
     $settings = $c->get('settings');
     $logger = new Monolog\Logger($settings['logger']['name']);
@@ -41,25 +41,15 @@ $container['logger'] = function ($c) {
 $container['pdo'] = function ($c) {
     $settings = $c->get('settings');
     try {
-        $db = new PDO(
+        $db = new \PDO(
             $settings['pdo']['driver'].':dbname='.$settings['pdo']['database'].';host='.$settings['pdo']['host'],
             $settings['pdo']['user'],
             $settings['pdo']['passwd']
         );
-    } catch (PDOException $e) {
-        throw new \Exception('DB conection failed : ' . $e->getMessage());
+    } catch (\PDOException $e) {
+        $errMsg = 'DB conection failed : ' . $e->getMessage();
+        $c->get('logger')->error($errMsg);
+        throw new \Exception($errMsg);
     }
     return $db;
-};
-
-// -----------------------------------------------------------------------------
-// Action factories
-// -----------------------------------------------------------------------------
-
-$container[App\Controller\FrontController::class] = function ($c) {
-    return new App\Controller\FrontController($c->get('view'), $c->get('logger'), $c->get('settings'));
-};
-
-$container[App\Controller\BackController::class] = function ($c) {
-    return new App\Controller\BackController($c->get('view'), $c->get('logger'), $c->get('settings'));
 };
