@@ -6,6 +6,7 @@ This is a skeleton project for Slim 3 that includes the following usefull depend
 * Slim Flash Messages
 * Monolog
 * PDO
+* PHP Debug Bar (maximebf/php-debugbar)
 
 This skeleton provide a base controller (`app/src/core/BaseController.php`) that you can extend to get default depencies loads.
 
@@ -115,3 +116,27 @@ return [
 ];
 ```
 
+## Debug Bar
+
+`Displays a debug bar in the browser with information from php. No more var_dump() in your code!`
+
+https://github.com/maximebf/php-debugbar
+
+`maximebf/php-debugbar` is handled with `php-middleware/phpdebugbar` from https://github.com/php-middleware/phpdebugbar
+
+It load the following collectors: 
+
+Default collectors: 
+
+* PhpInfoCollector
+* MessagesCollector
+* RequestDataCollector
+* TimeDataCollector
+* MemoryCollector
+* ExceptionsCollector
+
+Extra collectors:
+
+* ConfigCollector (based on app settings)
+* MonologCollector
+* PDOCollector

@@ -1,6 +1,7 @@
 <?php
 namespace App\Core;
 
+use DebugBar\StandardDebugBar;
 use Monolog\Logger;
 use Slim\Container;
 use Slim\Flash\Messages;
@@ -38,6 +39,11 @@ class BaseController
     protected $defaultData;
 
     /**
+     * @var StandardDebugBar Debug Bar Instance if enabled
+     */
+    protected $debugbar;
+
+    /**
      * Default controller construct
      *
      * @param Container $c Slim App Container
@@ -48,6 +54,10 @@ class BaseController
         $this->logger       = $c->get('logger');
         $this->flash        = $c->get('flash');
         $this->settings     = $c->get('settings');
+
+        if ($this->settings['debugbar']['enabled'] === true) {
+            $this->debugbar = $c->get('debugbar');
+        }
 
         //Default data to pass trought twig tpl
         $this->defaultData = array(
