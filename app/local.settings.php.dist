@@ -7,6 +7,17 @@ return [
         //Slim Settings
         'displayErrorDetails' => true,
 
+        //Debug Bar Setting
+        'debugbar' => [
+            'enabled' => true,
+            // Enable or disable extra collectors
+            'collectors' => [
+                'config'    => true,
+                'monolog'   => true,
+                'pdo'       => true
+            ]
+        ],
+
         // PDO settings
         'pdo' => [
             'driver'    => 'mysql',

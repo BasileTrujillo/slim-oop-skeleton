@@ -5,6 +5,17 @@ $settings = [
         'determineRouteBeforeAppMiddleware' => false,
         'displayErrorDetails' => false,
 
+        //Debug Bar Setting
+        'debugbar' => [
+            'enabled' => false,
+            // Enable or disable extra collectors
+            'collectors' => [
+                'config'    => true,
+                'monolog'   => true,
+                'pdo'       => true
+            ]
+        ],
+
         // View settings
         'view' => [
             'template_path' => __DIR__ . '/templates',

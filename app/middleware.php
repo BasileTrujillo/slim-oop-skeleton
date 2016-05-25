@@ -1,4 +1,8 @@
 <?php
 // Application middleware
 
-// e.g: $app->add(new \Slim\Csrf\Guard);
+if ($container->get('settings')['debugbar']['enabled'] === true) {
+    $app->add(new PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware(
+        $container->get('debugbar')->getJavascriptRenderer('/phpdebugbar')
+    ));
+}

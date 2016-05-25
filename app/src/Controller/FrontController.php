@@ -22,6 +22,13 @@ final class FrontController extends BaseController
      */
     public function homeAction(Request $request, Response $response, $args)
     {
+        // Add a debug bar message
+        //$this->debugbar['messages']->info('Welcome to front controller');
+
+        // Log an info
+        $this->logger->info("Home page action dispatched");
+
+        // Render
         $this->render($response, 'pages/front/home.twig');
         return $response;
     }
