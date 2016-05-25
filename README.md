@@ -11,18 +11,24 @@ This skeleton provide a base controller (`app/src/core/BaseController.php`) that
 
 It also include two Twig template based on Material Design Lite.
 The following Front & Back office templates : 
+
 * Front: https://getmdl.io/templates/android-dot-com/index.html
 * Back: https://getmdl.io/templates/dashboard/index.html
 
-## Create your project:
+## Create your project
 
     $ composer create-project -n -s dev l0gin/slim-3-mdl-skeleton my-app
 
-### Run it:
+## Run it
 
 1. `$ cd my-app`
 2. `$ php -S 0.0.0.0:8888 -t public public/index.php`
 3. Browse to http://localhost:8888
+
+## Demo
+
+* Front: http://slim-3-mdl-skeleton.l0gin.fr/
+* Back: http://slim-3-mdl-skeleton.l0gin.fr/admin
 
 ## Key directories
 
