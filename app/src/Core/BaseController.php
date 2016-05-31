@@ -9,7 +9,10 @@ use Slim\Http\Response;
 use Slim\Views\Twig;
 
 /**
+ * Class BaseController
  * Base controller class with functions shared by all controller implementations
+ *
+ * @package App\Core
  */
 class BaseController
 {

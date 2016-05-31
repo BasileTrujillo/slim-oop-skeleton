@@ -1,5 +1,8 @@
 <?php
-$settings = [
+/**
+ * App settings array
+ */
+return [
     'settings' => [
         // Slim Settings
         'determineRouteBeforeAppMiddleware' => false,
@@ -18,9 +21,9 @@ $settings = [
 
         // View settings
         'view' => [
-            'template_path' => __DIR__ . '/templates',
+            'template_path' => __DIR__ . '/../../templates',
             'twig' => [
-                'cache' => __DIR__ . '/../cache/twig',
+                'cache' => __DIR__ . '/../../../cache/twig',
                 'debug' => true,
                 'auto_reload' => true,
             ],
@@ -29,7 +32,7 @@ $settings = [
         // Monolog settings
         'logger' => [
             'name' => 'app',
-            'path' => __DIR__ . '/../log/app.log',
+            'path' => __DIR__ . '/../../../log/app.log',
         ],
 
         //Google Analytics
@@ -37,13 +40,5 @@ $settings = [
             'api_key' => false,
             'anonymize_ip' => false
         ]
-    ],
+    ]
 ];
-
-// Load environement settings
-if (file_exists(__DIR__ . '/local.settings.php')) {
-    $local_settings = require __DIR__ . '/local.settings.php';
-    $settings = array_replace_recursive($settings, $local_settings);
-}
-
-return $settings;
