@@ -1,4 +1,4 @@
-/app/local.settings.php
+/app/conf/local.settings.php
 vendor/
 /log/*
 /cache/*
