@@ -1,6 +1,6 @@
 # Slim 3 Skeleton
 
-This is a skeleton project for Slim 3 that includes the following usefull dependencies :
+This is a full POO skeleton project for Slim 3 that includes the following usefull dependencies :
 
 * Twig
 * Slim Flash Messages
@@ -36,6 +36,7 @@ The following Front & Back office templates :
 * `app`: Application code
 * `app/src`: All class files within the `App` namespace
 * `app/templates`: Twig template files
+* `app/conf`: Custom / environment settings
 * `cache/twig`: Twig's Autocreated cache files
 * `log`: Log files
 * `public`: Webserver root
@@ -45,13 +46,15 @@ The following Front & Back office templates :
 ## Key files
 
 * `public/index.php`: Entry point to application
-* `app/settings.php`: Configuration
-* `app/dependencies.php`: Services for Pimple
-* `app/middleware.php`: Application middleware
-* `app/routes.php`: All application routes are here
-* `app/src/controller/FrontController.php`: Controller class for the home page
-* `app/src/controller/BackController.php`: Controller class for the dashboard page
-* `app/src/core/BaseController.php`: Controller super class
+* `app/Core/Bootstrap.php`: Bootstrap class / Load and setup App
+* `app/Core/Settings.php`: Default configuration
+* `app/Core/Dependencies.php`: Services for Slim DI Container
+* `app/Core/Middlewares.php`: Application middlewares
+* `app/Core/Routes.php`: All application routes are here
+* `app/src/Core/BaseController.php`: Controller super class
+* `app/src/Controller/FrontController.php`: Controller class for the home page
+* `app/src/Controller/BackController.php`: Controller class for the dashboard page
+* `app/conf/local.settings.php.dist`: Copy this file as local.settings.php and add your custom / environment settings
 * `app/templates/layouts/front.twig`: Main Twig template file for front layout pages
 * `app/templates/layouts/back.twig`: Main Twig template file for back layout pages
 * `app/templates/pages/front/*`: Twig template files for front pages
@@ -59,11 +62,13 @@ The following Front & Back office templates :
 
 ## Use dependencies
 
-In your controllers override the parrent contructor and load your dependency from Slim Container.
+In your controllers override the parent contructor and load your dependency from Slim Container.
 
 ### Load PDO dependency
 
 ```php
+<?php
+
 final class MyController extends BaseController
 {
     /**
@@ -87,11 +92,13 @@ final class MyController extends BaseController
 }
 ```
 
-## Override / Set local (environement) settings
+## Override / Set local (environment) settings
 
-Copy `local.settings.php.dist` to `lcal.settings.php` and add your env settings.
+Copy `local.settings.php.dist` to `local.settings.php` and add your env settings.
 
 ```php
+<?php
+
 return [
     'settings' => [
 
@@ -114,6 +121,118 @@ return [
         ]
     ]
 ];
+```
+
+## Adding Dependencies / Middlewares / Routes
+
+`App\Core\Dependencies`, `App\Core\Middlewares` and `App\Core\Routes` classes have 
+an auto-load function witch call every methods starting with `load` (such as `loadTwig`).
+
+So, to add a service, a middleware or a new route function (multiple routes can be added into each `load` function),
+add a function like the following services setup : 
+
+```php
+<?php
+
+/**
+ * Load MongoDB
+ */
+protected function loadMongoDB()
+{
+    /**
+     * MongoDB Client
+     *
+     * @param Container $c
+     *
+     * @return \MongoDB\Client
+     */
+    $this->dic['mongo'] = function (Container $c) {
+        $settings = $c->get('settings')['mongo']; //@TODO: Add this setting into Settings.php and/or local.settings.php
+        $client = new \MongoDB\Client('mongodb://' . $settings['host'] . ':' . $settings['port']);
+        return $client;
+    };
+}
+
+/**
+ * Load Faker
+ */
+protected function loadFaker()
+{
+    /**
+     * Faker Factory Service
+     *
+     * @param Container $c
+     *
+     * @return \Faker\Factory
+     */
+    $this->dic['faker'] = function (Container $c) {
+        return Faker\Factory::create();
+    };
+}
+
+/**
+ * Load AMQP Stream Connection
+ */
+protected function loadAMQP()
+{
+    /**
+     * AMQP Stream Connection
+     *
+     * @param Container $c
+     *
+     * @return \PhpAmqpLib\Connection\AMQPStreamConnection
+     */
+    $this->dic['amqp'] = function (Container $c) {
+        $settings = $c->get('settings')['amqp']; //@TODO: Add this setting into Settings.php and/or local.settings.php
+        return new \PhpAmqpLib\Connection\AMQPStreamConnection(
+            $settings['amqp']['host'],
+            $settings['amqp']['port'],
+            $settings['amqp']['user'],
+            $settings['amqp']['pass']
+        );
+    };
+}
+```
+
+To simply add a `front-office` route, just add it into `loadFrontRoutes()` function.
+(Directly inside `Routes` class or inside an extended class).
+
+```php
+<?php
+
+    // /!\ Directly inside Routes class
+    
+    /**
+     * Load front-office routes
+     */
+    protected function loadFrontRoutes()
+    {
+        $this->app->get('/', 'App\Controller\FrontController:homeAction')
+            ->setName('homepage');
+            
+        $this->app->get('/contact', 'App\Controller\FrontController:contactAction')
+            ->setName('contact');
+    }
+    
+    // /!\ Inside an Routes extended class
+    
+    class MyRoutes extends \App\Core\Routes
+    {
+        //...
+        
+        /**
+         * Load front-office routes
+         */
+        protected function loadFrontRoutes()
+        {
+            parent::loadFrontRoutes();
+                
+            $this->app->get('/contact', 'App\Controller\FrontController:contactAction')
+                ->setName('contact');
+        }
+        
+        //...
+    }
 ```
 
 ## Debug Bar
