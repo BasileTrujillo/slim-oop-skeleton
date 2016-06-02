@@ -2,15 +2,27 @@
 
 This is a full POO skeleton project for Slim 3 that includes the following usefull dependencies :
 
+* [Twig](http://twig.sensiolabs.org/)
+* [Slim Flash Messages](https://github.com/slimphp/Slim-Flash) 
+* Monolog [Seldaek/monolog](https://github.com/Seldaek/monolog)
+* [PDO](http://php.net/manual/fr/book.pdo.php)
+* PHP Debug Bar [maximebf/php-debugbar](https://github.com/maximebf/php-debugbar)
+* CLImate [thephpleague/climate](https://github.com/thephpleague/climate)
+
+This skeleton provide:
+
+A base controller (`app/src/core/BaseController.php`) that you can extend to get default depencies loads
+It load the following services : 
+
 * Twig
-* Slim Flash Messages
 * Monolog
-* PDO
-* PHP Debug Bar (maximebf/php-debugbar)
+* Flash
 
-This skeleton provide a base controller (`app/src/core/BaseController.php`) that you can extend to get default depencies loads.
+And add settings array to view rendered.
 
-It also include two Twig template based on Material Design Lite.
+A base CLI controller (`app/src/core/BaseCliController.php`) witch load Monolog and CLImate and provide some usefull functions
+
+It also include two Twig templates based on Material Design Lite.
 The following Front & Back office templates : 
 
 * Front: https://getmdl.io/templates/android-dot-com/index.html
@@ -25,6 +37,8 @@ The following Front & Back office templates :
 1. `$ cd my-app`
 2. `$ php -S 0.0.0.0:8888 -t public public/index.php`
 3. Browse to http://localhost:8888
+
+Prefer using Apache 2.4 and PHP 7.0 (FPM).
 
 ## Demo
 
@@ -259,3 +273,61 @@ Extra collectors:
 * ConfigCollector (based on app settings)
 * MonologCollector
 * PDOCollector
+
+## Command Line Interface (PHP CLI) Endpoint
+
+This skeleton provide a CLI endpoint to help you create cli script using core app dependency injection and all other stuff.
+
+For example, to run init() function from `App\CLI\Setup`:
+
+    $ php bin/cli.php -s Setup::init
+
+Add some verbosity:
+
+    $ php bin/cli.php -s Setup::init -v
+    # Or
+    $ php bin/cli.php -s Setup::init --verbose
+    
+Print help:
+
+    $ php bin/cli.php -s Setup::init -h
+    # Or
+    $ php bin/cli.php -s Setup::init --help
+   
+### Add argument and help
+
+To add argument check, override checkParameters() function like the `Setup.php` does 
+and use `addParameter()` function to:
+
+* Add short and long option (related to [getOpt()](http://php.net/manual/fr/function.getopt.php))
+* Describe argument
+* Add example(s)
+
+Description and example(s) are automaticaly printed by `printHelp()` function.
+
+```php
+<?php
+    /**
+     * Custom parameter check
+     *
+     * @return bool Return false will automaticaly call printHelp() function and stop script execution
+     */
+    public function checkParameters()
+    {
+        // Add custom parameter
+        $this->addParameter('a', 'all', 'Setup All', '--all');
+
+        if(parent::checkParameters()) {
+        
+            // Check custom parameter
+            $aOpt = $this->getArg('a');
+            if ($aOpt !== null) {
+                $this->initAll = true;
+            }
+            
+            return true;
+        } else {
+            return false;
+        }
+    }
+```

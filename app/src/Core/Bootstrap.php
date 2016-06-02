@@ -14,27 +14,27 @@ class Bootstrap
     /**
      * @var App Slim App instance
      */
-    private $app;
+    protected $app;
 
     /**
      * @var array Settings
      */
-    private $settings;
+    protected $settings;
 
     /**
      * @var \App\Core\Dependencies Dependencies instance
      */
-    private $dicDependencies;
+    protected $dicDependencies;
 
     /**
      * @var \App\Core\Middlewares Middlewares instance
      */
-    private $middlewares;
+    protected $middlewares;
 
     /**
      * @var \App\Core\Routes Routes instance
      */
-    private $routes;
+    protected $routes;
 
     /**
      * Bootstrap construct
@@ -68,7 +68,7 @@ class Bootstrap
      * Load settings array from settings.php
      * Merge with local.settings.php if exist
      */
-    private function loadSettings()
+    protected function loadSettings()
     {
         $this->settings = require __DIR__ . '/Settings.php';
 
@@ -81,7 +81,7 @@ class Bootstrap
     /**
      * Set Up Dependencies
      */
-    private function loadDependencies()
+    protected function loadDependencies()
     {
         $this->dicDependencies = new Dependencies($this->app);
         $this->dicDependencies->autoLoadDependencies();
@@ -90,7 +90,7 @@ class Bootstrap
     /**
      * Add Middlewares
      */
-    private function loadMiddlewares()
+    protected function loadMiddlewares()
     {
         $this->middlewares = new Middlewares($this->app);
         $this->middlewares->autoLoadMiddlewares();
@@ -99,7 +99,7 @@ class Bootstrap
     /**
      * Register Routes
      */
-    private function loadRoutes()
+    protected function loadRoutes()
     {
         $this->routes = new Routes($this->app);
         $this->routes->autoLoadRoutes();
