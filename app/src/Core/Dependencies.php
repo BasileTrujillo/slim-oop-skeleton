@@ -6,6 +6,7 @@ use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\PDO\PDOCollector;
 use DebugBar\DataCollector\PDO\TraceablePDO;
 use DebugBar\StandardDebugBar;
+use League\CLImate\CLImate;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Monolog\Processor\UidProcessor;
@@ -41,14 +42,14 @@ class Dependencies
 
     /**
      * Auto load all dependencies
-     * Call every protected methods begining with "load" (such as "loadTwig")
+     * Call every public methods begining with "load" (such as "loadTwig")
      *
      * Add your onwn dependencies by creating methods begining with "load"
      */
     public function autoLoadDependencies()
     {
         $modelReflector = new \ReflectionClass(__CLASS__);
-        $methods = $modelReflector->getMethods(\ReflectionMethod::IS_PROTECTED);
+        $methods = $modelReflector->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach($methods as $method) {
             if (strrpos($method->name, 'load', -strlen($method->name)) !== false) {
                 $this->{$method->name}();
@@ -57,23 +58,9 @@ class Dependencies
     }
 
     /**
-     * Load dependencies into DIC
-     * Override / Use this method to call specific functions
-     */
-    public function loadDependencies()
-    {
-        $this->loadTwig();
-        $this->loadFlash();
-        $this->loadDebugBar();
-        $this->loadMonolog();
-        $this->loadPDO();
-        //...
-    }
-
-    /**
      * Load Twig Slim view
      */
-    protected function loadTwig()
+    public function loadTwig()
     {
         /**
          * Twig
@@ -97,7 +84,7 @@ class Dependencies
     /**
      * Load Slim Flash Message
      */
-    protected function loadFlash()
+    public function loadFlash()
     {
         /**
          * Slim Flash Message
@@ -114,7 +101,7 @@ class Dependencies
     /**
      * Load Debug Bar Service if enabled
      */
-    protected function loadDebugBar()
+    public function loadDebugBar()
     {
         if ($this->dic->get('settings')['debugbar']['enabled'] === true) {
             /**
@@ -140,7 +127,7 @@ class Dependencies
     /**
      * Load Monolog Service
      */
-    protected function loadMonolog()
+    public function loadMonolog()
     {
         /**
          * Monolog
@@ -153,7 +140,12 @@ class Dependencies
             $settings = $c->get('settings');
             $logger = new Logger($settings['logger']['name']);
             $logger->pushProcessor(new UidProcessor());
-            $logger->pushHandler(new StreamHandler($settings['logger']['path'], \Monolog\Logger::DEBUG));
+            if (PHP_SAPI === 'cli') {
+                $filename = $settings['logger']['filename_cli'];
+            } else {
+                $filename = $settings['logger']['filename'];
+            }
+            $logger->pushHandler(new StreamHandler($settings['logger']['path'].$filename, Logger::DEBUG));
 
             // Add Monolog instance to Debug Bar Data Collector
             if ($settings['debugbar']['enabled'] === true && $settings['debugbar']['collectors']['monolog'] === true) {
@@ -169,7 +161,7 @@ class Dependencies
     /**
      * Load PDO and attach it to Debug Bar (if enabled)
      */
-    protected function loadPDO()
+    public function loadPDO()
     {
         /**
          * Load PDO
@@ -205,4 +197,20 @@ class Dependencies
         };
     }
 
+    /**
+     * Load League\CLImate Library
+     */
+    public function loadCLImate()
+    {
+        /**
+         * Load CLImate
+         *
+         * @param Container $c
+         *
+         * @return CLImate
+         */
+        $this->dic['climate'] = function (Container $c) {
+            return new CLImate();
+        };
+    }
 }

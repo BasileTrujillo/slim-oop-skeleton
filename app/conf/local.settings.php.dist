@@ -7,6 +7,11 @@ return [
         //Slim Settings
         'displayErrorDetails' => true,
 
+        // CLI Settings
+        'cli' => [
+            'profiling' => true // Enabled profiling display
+        ],
+
         //Debug Bar Setting
         'debugbar' => [
             'enabled' => true,

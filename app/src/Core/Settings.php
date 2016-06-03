@@ -8,6 +8,12 @@ return [
         'determineRouteBeforeAppMiddleware' => false,
         'displayErrorDetails' => false,
 
+        // CLI Settings
+        'cli' => [
+            // Enable / Disable profiling display
+            'profiling' => false
+        ],
+
         //Debug Bar Setting
         'debugbar' => [
             'enabled' => false,
@@ -32,7 +38,9 @@ return [
         // Monolog settings
         'logger' => [
             'name' => 'app',
-            'path' => __DIR__ . '/../../../log/app.log',
+            'path' => __DIR__ . '/../../../log/',
+            'filename' => 'app.log',
+            'filename_cli' => 'app_cli.log'
         ],
 
         //Google Analytics
