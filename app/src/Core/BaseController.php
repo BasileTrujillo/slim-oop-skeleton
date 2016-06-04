@@ -71,13 +71,15 @@ class BaseController
     /**
      * Render twig template with merged datas
      *
-     * @param Response $response    Slim Response
-     * @param string   $tpl         Twig template to load
-     * @param array    $data        Data to send into loaded view
+     * @param Response $response Slim Response
+     * @param string   $tpl      Twig template to load
+     * @param array    $data     Data to send into loaded view
+     *
+     * @return \Psr\Http\Message\ResponseInterface
      */
     protected function render(Response $response, $tpl, $data = array())
     {
         $datas = $data + $this->defaultData;
-        $this->view->render($response, $tpl, $datas);
+        return $this->view->render($response, $tpl, $datas);
     }
 }

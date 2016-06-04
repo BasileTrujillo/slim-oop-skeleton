@@ -29,7 +29,6 @@ final class FrontController extends BaseController
         $this->logger->info("Home page action dispatched");
 
         // Render
-        $this->render($response, 'pages/front/home.twig');
-        return $response;
+        return $this->render($response, 'pages/front/home.twig');
     }
 }

@@ -70,4 +70,13 @@ class Routes
         $this->app->get('/admin', 'App\Controller\BackController:dashboardAction')
             ->setName('dashboard');
     }
+
+    /**
+     * Load API routes
+     */
+    protected function loadApiRoutes()
+    {
+        $this->app->get('/api', 'App\Controller\ApiController:apiAction')
+            ->setName('api');
+    }
 }
