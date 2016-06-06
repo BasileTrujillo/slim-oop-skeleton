@@ -8,6 +8,17 @@ return [
         'determineRouteBeforeAppMiddleware' => false,
         'displayErrorDetails' => false,
 
+        // Assets Settings
+        'assets' => [
+            'css_url'  => 'assets/css',
+            'js_url'   => 'assets/js',
+
+            // Load minified CSS and JS files if exists
+            'min' => true,
+            'css_min_url'  => 'assets/css/min',
+            'js_min_url'   => 'assets/js/min',
+        ],
+
         // CLI Settings
         'cli' => [
             // Enable / Disable profiling display

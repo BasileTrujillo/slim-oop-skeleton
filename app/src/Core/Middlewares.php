@@ -3,6 +3,7 @@ namespace App\Core;
 
 use PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware;
 use Slim\App;
+use Slim\Container;
 
 /**
  * Class Middlewares
@@ -42,7 +43,7 @@ class Middlewares
     public function autoLoadMiddlewares()
     {
         $modelReflector = new \ReflectionClass(__CLASS__);
-        $methods = $modelReflector->getMethods(\ReflectionMethod::IS_PROTECTED);
+        $methods = $modelReflector->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach($methods as $method) {
             if (strrpos($method->name, 'load', -strlen($method->name)) !== false) {
                 $this->{$method->name}();
@@ -51,20 +52,9 @@ class Middlewares
     }
 
     /**
-     * Add Slim App Middlewares
-     * Override / Use this method to call specific functions
-     */
-    public function loadMiddlewares()
-    {
-        $this->loadDebugBar();
-        //...
-    }
-
-
-    /**
      * Load Debug Bar Javascript Renderer if enabled
      */
-    protected function loadDebugBar()
+    public function loadDebugBar()
     {
         if ($this->dic->get('settings')['debugbar']['enabled'] === true) {
             $this->app->add(new PhpDebugBarMiddleware(
