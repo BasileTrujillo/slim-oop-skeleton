@@ -331,3 +331,97 @@ Description and example(s) are automaticaly printed by `printHelp()` function.
         }
     }
 ```
+
+## Asset Management
+
+To fully deploy project you have some other setup steps to follow:
+
+* Install [NodeJS](https://nodejs.org/)
+
+* Install [Gulp](https://github.com/gulpjs/gulp/blob/master/docs/getting-started.md)
+
+```
+    #Install gulp globally:
+    $ npm install --global gulp
+    
+    #Install gulp in your project devDependencies:
+    $ npm install --save-dev gulp`
+```
+    
+* Install Gulp dependencies:
+
+    `$ npm i`
+    
+*  Run Gulp tasks:
+
+```
+    # CSS task: clean CSS files
+    $ gulp beautify_css
+    
+    # Deploy assets for production: minify CSS, JS
+    $ gulp
+    # Or
+    $ gulp prod
+    
+    # Build as you dev (Auto launch 'gulp prod' on file changing)
+    $ gulp wath
+``` 
+    
+### Troubleshooting
+
+#### Gulp-autoprefixer issue
+
+If you have an error like that while running *gulp build*
+
+```
+#!shell
+
+/var/www/websites/weather-dashboard/web/node_modules/gulp-autoprefixer/node_modules/postcss/lib/lazy-result.js:157
+        this.processing = new Promise(function (resolve, reject) {
+                              ^
+ReferenceError: Promise is not defined
+    at LazyResult.async (/var/www/websites/weather-dashboard/web/node_modules/gulp-autoprefixer/node_modules/postcss/lib/lazy-result.js:157:31)
+```
+
+Take a look at here: [http://stackoverflow.com/a/32502195](http://stackoverflow.com/a/32502195)
+
+## Twig Extensions
+
+This skeleton provide a custom Twig Extension that implement the following Twig functions:
+
+getCssUrl(asset): 
+Return minified css file URL if ['assets']['min'] == true and files exists. 
+Otherwise return original css file URL if exists 
+
+```html
+    <link rel="stylesheet" href="{{ getCssUrl('front.main.css') }}">
+```
+
+getJsUrl(asset): 
+Return minified js file URL if ['assets']['min'] == true and files exists. 
+Otherwise return original js file URL if exists 
+
+```html
+    <script type="text/javascript" src="{{ getJsUrl('front.main.js') }}"></script>
+```
+
+### Add Twig Functions
+
+Feel free to add twig functions by editing or overriding `App\Core\TwigAppExtension.php`.
+To add a Twig function, just add a function starting with the twig function name and ending with `Function`.
+
+```php
+<?php
+    /**
+     * Twig Function to get JS asset URL
+     *
+     * @param $filename
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public function getJsUrlFunction($filename)
+    {
+        return $this->getAssetUrl('js', $filename);
+    }
+```

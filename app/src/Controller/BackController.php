@@ -22,7 +22,6 @@ final class BackController extends BaseController
      */
     public function dashboardAction(Request $request, Response $response, $args)
     {
-        $this->render($response, 'pages/back/dashboard.twig');
-        return $response;
+        return $this->render($response, 'pages/back/dashboard.twig');
     }
 }

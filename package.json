@@ -1,0 +1,25 @@
+{
+  "name": "slim-3-mdl-skeleton",
+  "description": "Slim Framework 3 skeleton with Twig, Monolog, Front & Back office template based on MDL.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://bitbucket.org/L0gIn/slim-3-mdl-skeleton.git"
+  },
+  "author": "L0gIn",
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-load-plugins": "latest",
+    "gulp-rename": "latest",
+    "gulp-csso": "latest",
+    "gulp-csscomb": "latest",
+    "gulp-cssbeautify": "latest",
+    "gulp-autoprefixer": "latest",
+    "gulp-cached": "latest",
+    "gulp-plumber": "latest",
+    "gulp-uglify": "latest",
+    "gulp-css-url-adjuster": "latest"
+  }
+}

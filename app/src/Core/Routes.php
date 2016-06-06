@@ -35,7 +35,7 @@ class Routes
     public function autoLoadRoutes()
     {
         $modelReflector = new \ReflectionClass(__CLASS__);
-        $methods = $modelReflector->getMethods(\ReflectionMethod::IS_PROTECTED);
+        $methods = $modelReflector->getMethods(\ReflectionMethod::IS_PUBLIC);
         foreach($methods as $method) {
             if (strrpos($method->name, 'load', -strlen($method->name)) !== false) {
                 $this->{$method->name}();
@@ -44,19 +44,9 @@ class Routes
     }
 
     /**
-     * Add Slim App Routes
-     * Override / Use this method to call specific functions
-     */
-    public function loadRoutes()
-    {
-        $this->loadFrontRoutes();
-        $this->loadBackRoutes();
-    }
-
-    /**
      * Load front-office routes
      */
-    protected function loadFrontRoutes()
+    public function loadFrontRoutes()
     {
         $this->app->get('/', 'App\Controller\FrontController:homeAction')
             ->setName('homepage');
@@ -65,9 +55,18 @@ class Routes
     /**
      * Load back-office routes
      */
-    protected function loadBackRoutes()
+    public function loadBackRoutes()
     {
         $this->app->get('/admin', 'App\Controller\BackController:dashboardAction')
             ->setName('dashboard');
+    }
+
+    /**
+     * Load API routes
+     */
+    public function loadApiRoutes()
+    {
+        $this->app->get('/api', 'App\Controller\ApiController:apiAction')
+            ->setName('api');
     }
 }

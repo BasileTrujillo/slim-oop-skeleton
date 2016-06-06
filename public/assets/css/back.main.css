@@ -2,3 +2,9 @@
  * Custom CSS
  */
 
+.browserupgrade {
+    margin: .2em 0;
+    padding: .2em 0;
+    color: #000;
+    background: #ccc;
+}
