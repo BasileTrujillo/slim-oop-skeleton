@@ -8,6 +8,15 @@ return [
         'determineRouteBeforeAppMiddleware' => false,
         'displayErrorDetails' => false,
 
+        // Error handler
+        // Default: Display call stack in orignal slim error
+        'error' => [
+            // Enable / disable Whoops error
+            'whoops' => true,
+            // Enable / disable JSON error (if 'whoops' == false)
+            'json' => false
+        ],
+
         // Assets Settings
         'assets' => [
             'css_url'  => 'assets/css',

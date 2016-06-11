@@ -4,6 +4,7 @@ namespace App\Core;
 use PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware;
 use Slim\App;
 use Slim\Container;
+use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 
 /**
  * Class Middlewares
@@ -44,7 +45,7 @@ class Middlewares
     {
         $modelReflector = new \ReflectionClass(__CLASS__);
         $methods = $modelReflector->getMethods(\ReflectionMethod::IS_PUBLIC);
-        foreach($methods as $method) {
+        foreach ($methods as $method) {
             if (strrpos($method->name, 'load', -strlen($method->name)) !== false) {
                 $this->{$method->name}();
             }
@@ -60,6 +61,40 @@ class Middlewares
             $this->app->add(new PhpDebugBarMiddleware(
                 $this->dic->get('debugbar')->getJavascriptRenderer('/phpdebugbar')
             ));
+        }
+    }
+
+    /**
+     * Load PHP whoops error if enabled
+     * or load JSON or standard Slim error output
+     *
+     * @see https://github.com/zeuxisoo/php-slim-whoops
+     * @see https://filp.github.io/whoops/
+     */
+    public function loadErrorHandler()
+    {
+        $settings = $this->dic->get('settings');
+        if ($settings['displayErrorDetails'] === true) {
+            if ($settings['error']['whoops'] === true) {
+                $settings['debug'] = true; // Needed by WhoopsMiddleware
+                $this->app->add(new WhoopsMiddleware);
+            } elseif ($settings['error']['json'] === true) {
+                $this->dic['errorHandler'] = function ($c) {
+                    return function ($request, $response, $exception) use ($c) {
+                        $data = [
+                            'error' => [
+                                'code'    => $exception->getCode(),
+                                'message' => $exception->getMessage(),
+                                'file'    => $exception->getFile(),
+                                'line'    => $exception->getLine(),
+                                'trace'   => explode("\n", $exception->getTraceAsString()),
+                            ]
+                        ];
+
+                        return $response->withJson($data, 500);
+                    };
+                };
+            }
         }
     }
 }
