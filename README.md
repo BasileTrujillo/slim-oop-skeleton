@@ -1,6 +1,6 @@
 # Slim 3 Skeleton
 
-This is a full POO skeleton project for Slim 3 that includes the following usefull dependencies :
+This is a full POO skeleton project for Slim 3 that includes the following usefull dependencies / middlewares :
 
 * [Twig](http://twig.sensiolabs.org/)
 * [Slim Flash Messages](https://github.com/slimphp/Slim-Flash) 
@@ -8,6 +8,7 @@ This is a full POO skeleton project for Slim 3 that includes the following usefu
 * [PDO](http://php.net/manual/fr/book.pdo.php)
 * PHP Debug Bar [maximebf/php-debugbar](https://github.com/maximebf/php-debugbar)
 * CLImate [thephpleague/climate](https://github.com/thephpleague/climate)
+* Whoops [filp/whoops](https://github.com/filp/whoops)
 
 This skeleton provide:
 
@@ -425,3 +426,10 @@ To add a Twig function, just add a function starting with the twig function name
         return $this->getAssetUrl('js', $filename);
     }
 ```
+
+## Roadmap
+
+* Unit test endpoint
+* PHP Doc generator
+* Rest API Doc generator
+* Bower to install public vendor assets

@@ -24,6 +24,7 @@
         "slim/flash": "^0.1.0",
         "monolog/monolog": "^1.13",
         "php-middleware/php-debug-bar": "^1.1",
-        "league/climate": "^3.2"
+        "league/climate": "^3.2",
+        "zeuxisoo/slim-whoops": "0.5.*"
     }
 }
