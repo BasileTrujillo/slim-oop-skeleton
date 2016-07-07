@@ -1,15 +1,15 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Web;
 
-use App\Core\BaseController;
+use App\Core\Controller\WebController;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class FrontController
- * @package App\Controller
+ * Class Front
+ * @package App\Controller\Web
  */
-final class FrontController extends BaseController
+final class Front extends WebController
 {
     /**
      * Home renderer

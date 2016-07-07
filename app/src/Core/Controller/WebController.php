@@ -1,5 +1,5 @@
 <?php
-namespace App\Core;
+namespace App\Core\Controller;
 
 use DebugBar\StandardDebugBar;
 use Monolog\Logger;
@@ -9,12 +9,12 @@ use Slim\Http\Response;
 use Slim\Views\Twig;
 
 /**
- * Class BaseController
- * Base controller class with functions shared by all controller implementations
+ * Class WebController
+ * Base Web controller class with functions shared by all web controller implementations
  *
- * @package App\Core
+ * @package App\Core\Controller
  */
-class BaseController
+class WebController
 {
     /**
      * @var Twig App View

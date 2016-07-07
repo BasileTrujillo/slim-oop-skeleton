@@ -1,17 +1,17 @@
 <?php
-namespace App\Core;
+namespace App\Core\Controller;
 
 use Monolog\Logger;
 use Slim\Container;
 use League\CLImate\CLImate;
 
 /**
- * Class BaseCliController
+ * Class CliController
  * Base CLI controller class with functions shared by all CLI controller implementations
  *
- * @package App\Core
+ * @package App\Core\Controller
  */
-class BaseCliController
+class CliController
 {
     /**
      * @var Logger Monolog Instance

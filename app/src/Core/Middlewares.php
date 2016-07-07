@@ -4,6 +4,10 @@ namespace App\Core;
 use PhpMiddleware\PhpDebugBar\PhpDebugBarMiddleware;
 use Slim\App;
 use Slim\Container;
+use Slim\Http\Request;
+use Slim\Http\Response;
+use Slim\Middleware\HttpBasicAuthentication;
+use Slim\Middleware\JwtAuthentication;
 use Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware;
 
 /**
@@ -53,18 +57,6 @@ class Middlewares
     }
 
     /**
-     * Load Debug Bar Javascript Renderer if enabled
-     */
-    public function loadDebugBar()
-    {
-        if ($this->dic->get('settings')['debugbar']['enabled'] === true) {
-            $this->app->add(new PhpDebugBarMiddleware(
-                $this->dic->get('debugbar')->getJavascriptRenderer('/phpdebugbar')
-            ));
-        }
-    }
-
-    /**
      * Load PHP whoops error if enabled
      * or load JSON or standard Slim error output
      *
@@ -96,5 +88,60 @@ class Middlewares
                 };
             }
         }
+    }
+
+    /**
+     * Load Debug Bar Javascript Renderer if enabled
+     */
+    public function loadDebugBar()
+    {
+        if ($this->dic->get('settings')['debugbar']['enabled'] === true) {
+            $this->app->add(new PhpDebugBarMiddleware(
+                $this->dic->get('debugbar')->getJavascriptRenderer('/phpdebugbar')
+            ));
+        }
+    }
+
+    /**
+     * Setup Basic Auth using HttpBasicAuthentication and dependencie's autheticator
+     * Setup JSON Web Token middleware to ensure API security
+     */
+    public function loadSecurityMiddlewares()
+    {
+        $container = $this->dic;
+        $settings = $container->get('settings');
+
+        // HttpBasicAuthentication
+        $basicAuthOption = [
+                "path" => "/api/auth",
+                "authenticator" => $container->get('authenticator'),
+                "error" => function (Request $request, Response $response, $arguments) {
+                    $data["status"] = "error";
+                    $data["message"] = $arguments["message"];
+                    return $response->withJson($data);
+                }
+            ] + $settings['HttpBasicAuthentication'];
+
+        $this->app->add(new HttpBasicAuthentication($basicAuthOption));
+
+        // JwtAuthentication
+        $jwtOptions = [
+                "path" => "/api",
+                "passthrough" => ["/api/auth"],
+                "environment" => ["HTTP_X_TOKEN", "HTTP_AUTHORIZATION"],
+                "header" => "X-Token",
+                "logger" => $container->get('logger'),
+                "error" => function (Request $request, Response $response, $arguments) {
+                    $data["status"] = "error";
+                    $data["message"] = $arguments["message"];
+                    return $response->withJson($data);
+                },
+                "callback" => function (Request $request, Response $response, $arguments) use ($container) {
+                    // Add the decoded token to DIC
+                    $container['token'] = $arguments["decoded"];
+                }
+            ] + $settings['JwtAuthentication'];
+
+        $this->app->add(new JwtAuthentication($jwtOptions));
     }
 }

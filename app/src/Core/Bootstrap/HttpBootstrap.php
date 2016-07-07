@@ -1,15 +1,18 @@
 <?php
-namespace App\Core;
+namespace App\Core\Bootstrap;
 
+use App\Core\Dependencies;
+use App\Core\Middlewares;
+use App\Core\Routes;
 use Slim\App;
 
 /**
- * Class Bootstrap
+ * Class HttpBootstrap
  * Load and setup Slim App and DIC
  *
- * @package App\Core
+ * @package App\Core\Bootstrap
  */
-class Bootstrap
+class HttpBootstrap
 {
     /**
      * @var App Slim App instance
@@ -70,10 +73,10 @@ class Bootstrap
      */
     protected function loadSettings()
     {
-        $this->settings = require __DIR__ . '/Settings.php';
+        $this->settings = require __DIR__ . '/../Settings.php';
 
-        if (file_exists(__DIR__ . '/../../conf/local.settings.php')) {
-            $local_settings = require __DIR__ . '/../../conf/local.settings.php';
+        if (file_exists(__DIR__ . '/../../../conf/local.settings.php')) {
+            $local_settings = require __DIR__ . '/../../../conf/local.settings.php';
             $this->settings = array_replace_recursive($this->settings, $local_settings);
         }
     }

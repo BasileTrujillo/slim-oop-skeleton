@@ -1,4 +1,4 @@
-# Slim 3 Skeleton
+# Slim 3 POO Skeleton
 
 This is a full POO skeleton project for Slim 3 that includes the following usefull dependencies / middlewares :
 
@@ -6,22 +6,19 @@ This is a full POO skeleton project for Slim 3 that includes the following usefu
 * [Slim Flash Messages](https://github.com/slimphp/Slim-Flash) 
 * Monolog [Seldaek/monolog](https://github.com/Seldaek/monolog)
 * [PDO](http://php.net/manual/fr/book.pdo.php)
+* MongoDB [mongo-php-library](http://mongodb.github.io/mongo-php-library) - [Mongo Doc](https://docs.mongodb.com/manual/)
 * PHP Debug Bar [maximebf/php-debugbar](https://github.com/maximebf/php-debugbar)
 * CLImate [thephpleague/climate](https://github.com/thephpleague/climate)
 * Whoops [filp/whoops](https://github.com/filp/whoops)
 
 This skeleton provide:
 
-A base controller (`app/src/core/BaseController.php`) that you can extend to get default depencies loads
+--> A Web controller (`app/src/Core/Controller/WebController.php`) that you can extend to get default depencies loads.
 It load the following services : 
 
 * Twig
 * Monolog
 * Flash
-
-And add settings array to view rendered.
-
-A base CLI controller (`app/src/core/BaseCliController.php`) witch load Monolog and CLImate and provide some usefull functions
 
 It also include two Twig templates based on Material Design Lite.
 The following Front & Back office templates : 
@@ -29,9 +26,18 @@ The following Front & Back office templates :
 * Front: https://getmdl.io/templates/android-dot-com/index.html
 * Back: https://getmdl.io/templates/dashboard/index.html
 
+--> A secured authenticated API controller using Basic Auth, MongoDB and JSON Web Token (JWT) middlewares.
+
+* GET - `api/auth` to a get a JWT on succesfull authentication.
+* GET - `api/user` to retrieves User informations.
+
+--> A CLI controller (`app/src/Core/Controller/CliController.php`) witch load Monolog and CLImate and provide some usefull functions.
+
+A `Setup` Class is provided to help initiate MongoBD structure and creates users.
+
 ## Create your project
 
-    $ composer create-project -n -s dev l0gin/slim-3-mdl-skeleton my-app
+    $ composer create-project -n -s dev l0gin/slim-3-poo-skeleton my-app
 
 ## Run it
 
@@ -40,11 +46,6 @@ The following Front & Back office templates :
 3. Browse to http://localhost:8888
 
 Prefer using Apache 2.4 and PHP 7.0 (FPM).
-
-## Demo
-
-* Front: http://slim-3-mdl-skeleton.l0gin.fr/
-* Back: http://slim-3-mdl-skeleton.l0gin.fr/admin
 
 ## Key directories
 
@@ -61,14 +62,20 @@ Prefer using Apache 2.4 and PHP 7.0 (FPM).
 ## Key files
 
 * `public/index.php`: Entry point to application
-* `app/Core/Bootstrap.php`: Bootstrap class / Load and setup App
+* `app/Core/Bootstrap/HttpBootstrap.php`: HTTP Bootstrap class for Web and API endpoints - Load and setup App
+* `app/Core/Bootstrap/CliBootstrap.php`: CLI Bootstrap class for CLI endpoints - Load and setup App
 * `app/Core/Settings.php`: Default configuration
 * `app/Core/Dependencies.php`: Services for Slim DI Container
 * `app/Core/Middlewares.php`: Application middlewares
 * `app/Core/Routes.php`: All application routes are here
-* `app/src/Core/BaseController.php`: Controller super class
-* `app/src/Controller/FrontController.php`: Controller class for the home page
-* `app/src/Controller/BackController.php`: Controller class for the dashboard page
+* `app/src/Core/Controller/WebController.php`: Web Controller super class - For Web endpoint using
+* `app/src/Core/Controller/ApiController.php`: API Controller super class - For API endpoint using
+* `app/src/Core/Controller/CliController.php`: CLI Controller super class - For CLI endpoint using
+* `app/src/Controller/Web/Front.php`: Controller class for the home page
+* `app/src/Controller/Web/Back.php`: Controller class for the dashboard page
+* `app/src/Controller/Api/Auth.php`: Controller class for API Authentication
+* `app/src/Controller/Api/User.php`: Controller class for User action through API
+* `app/src/Controller/Cli/Setup.php`: Controller class for app setup
 * `app/conf/local.settings.php.dist`: Copy this file as local.settings.php and add your custom / environment settings
 * `app/templates/layouts/front.twig`: Main Twig template file for front layout pages
 * `app/templates/layouts/back.twig`: Main Twig template file for back layout pages
@@ -84,7 +91,7 @@ In your controllers override the parent contructor and load your dependency from
 ```php
 <?php
 
-final class MyController extends BaseController
+final class MyController extends WebController
 {
     /**
      * @var \PDO PDO Instance
@@ -128,6 +135,18 @@ return [
             'user'      => 'foo',
             'passwd'    => 'bar'
         ],
+        
+        // Mongo DB settings        
+        'mongo' => [
+            'host' => '127.0.0.1',
+            'port' => 27017,
+            'options' => [
+                //"username" => 'foo',
+                //"password" => 'bar'
+            ],
+            'driverOptions' => [],
+            'default_db' => 'database'
+        ],
 
         //Google Analytics
         'google_analytics' => [
@@ -148,25 +167,6 @@ add a function like the following services setup :
 
 ```php
 <?php
-
-/**
- * Load MongoDB
- */
-protected function loadMongoDB()
-{
-    /**
-     * MongoDB Client
-     *
-     * @param Container $c
-     *
-     * @return \MongoDB\Client
-     */
-    $this->dic['mongo'] = function (Container $c) {
-        $settings = $c->get('settings')['mongo']; //@TODO: Add this setting into Settings.php and/or local.settings.php
-        $client = new \MongoDB\Client('mongodb://' . $settings['host'] . ':' . $settings['port']);
-        return $client;
-    };
-}
 
 /**
  * Load Faker
@@ -222,14 +222,14 @@ To simply add a `front-office` route, just add it into `loadFrontRoutes()` funct
      */
     protected function loadFrontRoutes()
     {
-        $this->app->get('/', 'App\Controller\FrontController:homeAction')
+        $this->app->get('/', 'App\Controller\Front:homeAction')
             ->setName('homepage');
             
-        $this->app->get('/contact', 'App\Controller\FrontController:contactAction')
+        $this->app->get('/contact', 'App\Controller\Front:contactAction')
             ->setName('contact');
     }
     
-    // /!\ Inside an Routes extended class
+    // /!\ Inside a Routes extended class
     
     class MyRoutes extends \App\Core\Routes
     {
@@ -279,10 +279,10 @@ Extra collectors:
 
 This skeleton provide a CLI endpoint to help you create cli script using core app dependency injection and all other stuff.
 
-For example, to run init() function from `App\CLI\Setup`:
+For example, to run `init()` function from `App\CLI\Setup`:
 
-    $ php bin/cli.php -s Setup::init
-
+    $ php bin/cli.php -s Setup::init -v
+    
 Add some verbosity:
 
     $ php bin/cli.php -s Setup::init -v
@@ -294,6 +294,10 @@ Print help:
     $ php bin/cli.php -s Setup::init -h
     # Or
     $ php bin/cli.php -s Setup::init --help
+    
+Add or update an User by calling `user()` function from `App\Controller\Cli\Setup`:
+
+    $ php bin/cli.php -s Setup::user -l admin2 -p coucou -g test -v
    
 ### Add argument and help
 
@@ -408,7 +412,7 @@ Otherwise return original js file URL if exists
 
 ### Add Twig Functions
 
-Feel free to add twig functions by editing or overriding `App\Core\TwigAppExtension.php`.
+Feel free to add twig functions by editing or overriding `App\Core\Twig\AssetTwigExtension`.
 To add a Twig function, just add a function starting with the twig function name and ending with `Function`.
 
 ```php
@@ -427,9 +431,45 @@ To add a Twig function, just add a function starting with the twig function name
     }
 ```
 
+## System Auth
+
+Basic Autentication & JWT:
+
+* https://github.com/tuupola/slim-basic-auth
+* https://github.com/tuupola/slim-jwt-auth
+
+Get a JSON Web Token by authenticating in `/api/auth` then just deal with the token.
+
+    $ curl -X GET -H "Authorization: Basic YWRtaW46Y291Y291" -H "Cache-Control: no-cache" "http://www.foo.bar/api/auth"
+    
+Response:
+
+```json
+{
+  "status": "ok",
+  "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0Njc4MDU2MDQsImV4cCI6MTQ2NzgxMjgwNCwianRpIjoiR2NRa3VoM3poeVBhRUJyVUVtaGsrdz09Iiwic3ViIjoiNTc3Y2Q1ZWNkNDJhYTQyYzVkMWZmMzQyIn0.4GectmgSi4qOforBGm31Z8Qd4b2kM_EFrNC9TfQXkos"
+}
+```
+
+Get User informations using the JWT from api auth:
+
+    $ curl -X GET -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE0Njc4MDU2MDQsImV4cCI6MTQ2NzgxMjgwNCwianRpIjoiR2NRa3VoM3poeVBhRUJyVUVtaGsrdz09Iiwic3ViIjoiNTc3Y2Q1ZWNkNDJhYTQyYzVkMWZmMzQyIn0.4GectmgSi4qOforBGm31Z8Qd4b2kM_EFrNC9TfQXkos" -H "Cache-Control: no-cache" "http://www.foo.bar/api/user"
+
+Response:
+
+```json
+{
+  "login": "admin",
+  "created_at": "48482-09-12 15:03:51",
+  "updated_at": "48482-09-12 15:03:51",
+  "group_name": "test",
+  "group_id": "577cd5ebd42aa42c5d1ff341"
+}
+```
+
 ## Roadmap
 
 * Unit test endpoint
 * PHP Doc generator
-* Rest API Doc generator
+* Rest API Doc generator (Phinx, APIJS, ...)
 * Bower to install public vendor assets

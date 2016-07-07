@@ -1,15 +1,15 @@
 <?php
-namespace App\Controller;
+namespace App\Controller\Web;
 
-use App\Core\BaseController;
+use App\Core\Controller\WebController;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 /**
- * Class BackController
- * @package App\Controller
+ * Class Back
+ * @package App\Controller\Web
  */
-final class BackController extends BaseController
+final class Back extends WebController
 {
     /**
      * Dashboard renderer

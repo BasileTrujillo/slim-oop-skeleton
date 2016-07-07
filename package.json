@@ -1,12 +1,12 @@
 {
-  "name": "slim-3-mdl-skeleton",
-  "description": "Slim Framework 3 skeleton with Twig, Monolog, Front & Back office template based on MDL.",
+  "name": "slim-3-poo-skeleton",
+  "description": "Slim Framework 3 POO skeleton with Web, Secured API and Cli endpoints.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/L0gIn/slim-3-mdl-skeleton.git"
+    "url": "https://bitbucket.org/L0gIn/slim-3-poo-skeleton.git"
   },
   "author": "L0gIn",
   "devDependencies": {
