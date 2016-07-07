@@ -67,6 +67,48 @@ return [
         'google_analytics' => [
             'api_key' => false,
             'anonymize_ip' => false
-        ]
+        ],
+
+        // PDO settings
+        'pdo' => [
+            'driver'    => 'mysql',
+            'host'      => '127.0.0.1',
+            'database'  => 'foo',
+            'user'      => 'bar',
+            'passwd'    => 'baz'
+        ],
+
+        // Mongo DB settings
+        'mongo' => [
+            'host' => '127.0.0.1',
+            'port' => 27017,
+            'options' => [
+                //"username" => 'foo',
+                //"password" => 'bar'
+            ],
+            'driverOptions' => [],
+            'default_db' => 'database'
+        ],
+
+        // Mongo DB Authenticator settings
+        'MongoAuthenticator' => [
+            'database' => 'database',
+            'user_collection' => 'user',
+            'user_field' => 'login',
+            'hash_field' => 'hash',
+        ],
+
+        // HttpBasicAuthentication Settings
+        'HttpBasicAuthentication' => [
+            //'relaxed' => '',
+            'secure' => false
+
+        ],
+
+        // JwtAuthentication settings
+        'JwtAuthentication' => [
+            'secret' => 'secretpassword', // Change it into local.settings.php (unversionned)
+            'secure' => false
+        ],
     ]
 ];

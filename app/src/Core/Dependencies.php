@@ -1,6 +1,10 @@
 <?php
 namespace App\Core;
 
+//use App\Core\Authenticator\MongoAuthenticator;
+use App\Core\Authenticator\UserAuthenticator;
+use App\Core\Twig\AssetTwigExtension;
+use App\Model\User;
 use DebugBar\Bridge\MonologCollector;
 use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\PDO\PDOCollector;
@@ -63,8 +67,6 @@ class Dependencies
     public function loadTwig()
     {
         /**
-         * Twig
-         *
          * @param Container $c
          *
          * @return Twig
@@ -76,7 +78,7 @@ class Dependencies
             // Add extensions
             $view->addExtension(new TwigExtension($c->get('router'), $c->get('request')->getUri()));
             $view->addExtension(new Twig_Extension_Debug());
-            $view->addExtension(new TwigAppExtension($c));
+            $view->addExtension(new AssetTwigExtension($c));
 
             return $view;
         };
@@ -88,8 +90,6 @@ class Dependencies
     public function loadFlash()
     {
         /**
-         * Slim Flash Message
-         *
          * @param Container $c
          *
          * @return Messages
@@ -106,8 +106,6 @@ class Dependencies
     {
         if ($this->dic->get('settings')['debugbar']['enabled'] === true) {
             /**
-             * Debug Bar
-             *
              * @param Container $c
              *
              * @return StandardDebugBar
@@ -131,8 +129,6 @@ class Dependencies
     public function loadMonolog()
     {
         /**
-         * Monolog
-         *
          * @param \Slim\Container $c
          *
          * @return Logger
@@ -165,8 +161,6 @@ class Dependencies
     public function loadPDO()
     {
         /**
-         * Load PDO
-         *
          * @param Container $c
          *
          * @return \PDO
@@ -204,14 +198,57 @@ class Dependencies
     public function loadCLImate()
     {
         /**
-         * Load CLImate
-         *
          * @param Container $c
          *
          * @return CLImate
          */
         $this->dic['climate'] = function (Container $c) {
             return new CLImate();
+        };
+    }
+
+    /**
+     * Load Mongo DB
+     */
+    public function loadMongoDB()
+    {
+        /**
+         * @param Container $c
+         *
+         * @return \MongoDB\Client
+         */
+        $this->dic['mongo_client'] = function (Container $c) {
+            $settings = $c->get('settings');
+            return new \MongoDB\Client(
+                'mongodb://' . $settings['mongo']['host'] . ':' . $settings['mongo']['port'],
+                $settings['mongo']['options'],
+                $settings['mongo']['driverOptions']
+            );
+        };
+
+        /**
+         * @param Container $c
+         *
+         * @return \MongoDB\Database
+         */
+        $this->dic['mongo_database'] = function (Container $c) {
+            return $c->get('mongo_client')->selectDatabase($c->get('settings')['mongo']['default_db']);
+        };
+    }
+
+    /**
+     * Load authenticator
+     */
+    public function loadAuthenticator() {
+
+        /**
+         * @param Container $c
+         *
+         * @return UserAuthenticator
+         */
+        $this->dic['authenticator'] = function (Container $c) {
+            //return new MongoAuthenticator($c->get('mongo_client'), $c->get('settings')['MongoAuthenticator']);
+            return new UserAuthenticator(new User($c->get('mongo_database')));
         };
     }
 }

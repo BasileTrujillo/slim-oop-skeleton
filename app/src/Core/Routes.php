@@ -48,7 +48,7 @@ class Routes
      */
     public function loadFrontRoutes()
     {
-        $this->app->get('/', 'App\Controller\FrontController:homeAction')
+        $this->app->get('/', 'App\Controller\Web\Front:homeAction')
             ->setName('homepage');
     }
 
@@ -57,7 +57,7 @@ class Routes
      */
     public function loadBackRoutes()
     {
-        $this->app->get('/admin', 'App\Controller\BackController:dashboardAction')
+        $this->app->get('/admin', 'App\Controller\Web\Back:dashboardAction')
             ->setName('dashboard');
     }
 
@@ -66,7 +66,10 @@ class Routes
      */
     public function loadApiRoutes()
     {
-        $this->app->get('/api', 'App\Controller\ApiController:apiAction')
-            ->setName('api');
+        $this->app->get('/api/auth', 'App\Controller\Api\Auth:authAction')
+            ->setName('api-auth');
+
+        $this->app->get('/api/user', 'App\Controller\Api\User:getUserAction')
+            ->setName('user');
     }
 }

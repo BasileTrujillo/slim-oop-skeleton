@@ -32,6 +32,24 @@ return [
             'passwd'    => 'baz'
         ],
 
+        // Mongo DB settings
+        'mongo' => [
+            'host' => '127.0.0.1',
+            'port' => 27017,
+            'options' => [
+                //"username" => 'foo',
+                //"password" => 'bar'
+            ],
+            'driverOptions' => [],
+            'default_db' => 'database'
+        ],
+
+        // JwtAuthentication settings
+        'JwtAuthentication' => [
+            'secret' => 'secretpassword', // Change it into local.settings.php (unversionned)
+            'secure' => false
+        ],
+
         //Google Analytics
         'google_analytics' => [
             'api_key' => 'UA-XXXXX-Y',

@@ -1,13 +1,15 @@
 <?php
-namespace App\Core;
+namespace App\Core\Bootstrap;
+
+use App\Core\Dependencies;
 
 /**
- * Class Bootstrap
+ * Class CliBootstrap
  * Load and setup Slim App and DIC
  *
- * @package App\Core
+ * @package App\Core\Bootstrap
  */
-class BootstrapCLI extends Bootstrap
+class CliBootstrap extends HttpBootstrap
 {
     /**
      * @var int Start microtime for profiling
@@ -22,7 +24,7 @@ class BootstrapCLI extends Bootstrap
     /**
      * @var string CLI Controller namespace
      */
-    private $namespace = '\\App\\CLI\\';
+    private $namespace = '\\App\\Controller\\Cli\\';
 
     /**
      * Setup and Run
@@ -59,7 +61,8 @@ class BootstrapCLI extends Bootstrap
         $this->dicDependencies = new Dependencies($this->app);
         $this->dicDependencies->loadMonolog();
         $this->dicDependencies->loadCLImate();
-        $this->dicDependencies->loadPDO();
+        //$this->dicDependencies->loadPDO();
+        $this->dicDependencies->loadMongoDB();
     }
 
     /**

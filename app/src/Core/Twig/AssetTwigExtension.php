@@ -1,14 +1,14 @@
 <?php
-namespace App\Core;
+namespace App\Core\Twig;
 
 use Slim\Container;
 use Slim\Views\TwigExtension;
 
 /**
- * Class TwigAppExtension
- * @package App\Core
+ * Class AssetTwigExtension
+ * @package App\Core\Twig
  */
-class TwigAppExtension extends \Twig_Extension
+class AssetTwigExtension extends \Twig_Extension
 {
     /**
      * @var Container Slim DI Container
@@ -19,6 +19,11 @@ class TwigAppExtension extends \Twig_Extension
      * @var TwigExtension Slim Twig Extension (usage
      */
     private $slimTwigExtension;
+
+    /**
+     * @var String Relative public folder path
+     */
+    private $relPublicPath = '/../../../../public/';
 
     /**
      * TwigAppExtension constructor.
@@ -103,7 +108,7 @@ class TwigAppExtension extends \Twig_Extension
     {
         $settings = $this->dic->get('settings');
         if (isset($settings['assets'], $settings['assets'][$ext . '_url'])) {
-            $filePath = __DIR__ . '/../../../public/' . $settings['assets'][$ext . '_url'] . '/';
+            $filePath = __DIR__ . $this->relPublicPath . $settings['assets'][$ext . '_url'] . '/';
             // Check existing original asset file
             if (file_exists($filePath . $filename)) {
                 $minFilename = str_replace('.' . $ext, '.min.' . $ext, $filename);

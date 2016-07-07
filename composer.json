@@ -1,9 +1,9 @@
 {
-    "name": "l0gin/slim-3-mdl-skeleton",
-    "description": "Slim Framework 3 skeleton with Twig, Monolog, Front & Back office template based on MDL.",
+    "name": "l0gin/slim-3-poo-skeleton",
+    "description": "Slim Framework 3 POO skeleton with Web, Secured API and Cli endpoints.",
     "type": "project",
     "keywords": ["slim-framework", "skeleton", "boilerplate", "mdl"],
-    "homepage": "https://bitbucket.org/L0gIn/slim-3-mdl-skeleton",
+    "homepage": "https://bitbucket.org/L0gIn/slim-3-poo-skeleton",
     "license": "MIT",
     "authors": [
         {
@@ -25,6 +25,9 @@
         "monolog/monolog": "^1.13",
         "php-middleware/php-debug-bar": "^1.1",
         "league/climate": "^3.2",
-        "zeuxisoo/slim-whoops": "0.5.*"
+        "zeuxisoo/slim-whoops": "0.5.*",
+        "mongodb/mongodb": "^1.0.0",
+        "tuupola/slim-jwt-auth": "^2.3",
+        "tuupola/slim-basic-auth": "^2.0"
     }
 }

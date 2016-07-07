@@ -10,5 +10,5 @@ require __DIR__ . '/../vendor/autoload.php';
 
 session_start();
 
-$bootstap = new \App\Core\Bootstrap();
+$bootstap = new \App\Core\Bootstrap\HttpBootstrap();
 $bootstap->run();
