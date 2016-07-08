@@ -47,7 +47,7 @@ class ApiController
     {
         $this->logger   = $c->get('logger');
         $this->settings = $c->get('settings');
-        $this->mongo    = $c->get('mongo_client');
+        $this->mongo    = $c->get('mongo_database');
         if ($c->offsetExists('token')) {
             $this->token = $c->get('token');
             $this->user  = $c->get('authenticator')->getUser(null, $this->token->sub);
