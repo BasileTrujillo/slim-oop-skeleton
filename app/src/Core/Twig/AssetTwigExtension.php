@@ -115,7 +115,7 @@ class AssetTwigExtension extends \Twig_Extension
 
                 // Check existing minified asset file
                 if (isset($settings['assets']['min']) && $settings['assets']['min'] && isset($settings['assets'][$ext . '_min_url'])) {
-                    $minFilePath = __DIR__ . '/../../../public/' . $settings['assets'][$ext . '_min_url'] . '/';
+                    $minFilePath = __DIR__ . '/../../../../public/' . $settings['assets'][$ext . '_min_url'] . '/';
                     if (file_exists($minFilePath . $minFilename)) {
                         return $this->slimTwigExtension->baseUrl() . '/' . $settings['assets'][$ext . '_min_url'] . '/' . $minFilename;
                     }
