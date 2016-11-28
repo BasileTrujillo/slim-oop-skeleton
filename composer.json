@@ -28,6 +28,7 @@
         "zeuxisoo/slim-whoops": "0.5.*",
         "mongodb/mongodb": "^1.0.0",
         "tuupola/slim-jwt-auth": "^2.3",
-        "tuupola/slim-basic-auth": "^2.0"
+        "tuupola/slim-basic-auth": "^2.0",
+        "roave/security-advisories": "dev-master"
     }
 }
