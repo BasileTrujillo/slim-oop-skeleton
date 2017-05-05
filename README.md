@@ -1,6 +1,10 @@
-# Slim 3 POO Skeleton
+# Slim 3 OOP Skeleton
 
-This is a full POO skeleton project for Slim 3 that includes the following usefull dependencies / middlewares :
+[![License](http://poser.pugx.org/l0gin/slim-oop-skeleton/license?format=flat)](https://packagist.org/packages/l0gin/slim-oop-skeleton)
+[![Latest Stable Version](http://poser.pugx.org/l0gin/slim-oop-skeleton/v/stable?format=flat)](https://packagist.org/packages/l0gin/slim-oop-skeleton)
+[![Total Downloads](http://poser.pugx.org/l0gin/slim-oop-skeleton/downloads?format=flat)](https://packagist.org/packages/l0gin/slim-oop-skeleton)
+
+This is a full OOP skeleton project for Slim 3 that includes the following usefull dependencies / middlewares :
 
 * [Twig](http://twig.sensiolabs.org/)
 * [Slim Flash Messages](https://github.com/slimphp/Slim-Flash) 
@@ -36,6 +40,8 @@ The following Front & Back office templates :
 A `Setup` Class is provided to help initiate MongoBD structure and creates users.
 
 ## Create your project
+
+The project is available on [Packagist](https://packagist.org/packages/l0gin/slim-3-poo-skeleton), so you can create a new project with the following command: 
 
     $ composer create-project -n -s dev l0gin/slim-3-poo-skeleton my-app
 

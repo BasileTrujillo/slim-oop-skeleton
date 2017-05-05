@@ -1,12 +1,13 @@
 {
-  "name": "slim-3-poo-skeleton",
-  "description": "Slim Framework 3 POO skeleton with Web, Secured API and Cli endpoints.",
+  "name": "slim-oop-skeleton",
+  "description": "Slim Framework 3 OOP skeleton with Web, Secured API and Cli endpoints.",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "private": true,
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/L0gIn/slim-3-poo-skeleton.git"
+    "url": "https://gitlab.com/L0gIn/slim-oop-skeleton.git"
   },
   "author": "L0gIn",
   "devDependencies": {

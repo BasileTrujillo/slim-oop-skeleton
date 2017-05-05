@@ -1,15 +1,15 @@
 {
-    "name": "l0gin/slim-3-poo-skeleton",
-    "description": "Slim Framework 3 POO skeleton with Web, Secured API and Cli endpoints.",
+    "name": "l0gin/slim-oop-skeleton",
+    "description": "Slim Framework 3 OOP skeleton with Web, Secured API and Cli endpoints.",
     "type": "project",
     "keywords": ["slim-framework", "skeleton", "boilerplate", "mdl"],
-    "homepage": "https://bitbucket.org/L0gIn/slim-3-poo-skeleton",
+    "homepage": "https://gitlab.com/L0gIn/slim-oop-skeleton",
     "license": "MIT",
     "authors": [
         {
             "name": "L0gIn",
-            "email": "contact@l0gin.fr",
-            "homepage": "https://bitbucket.org/L0gIn"
+            "email": "basiletrujillo@gmail.com",
+            "homepage": "https://gitlab.com/L0gIn"
         }
     ],
     "autoload": {
@@ -28,6 +28,7 @@
         "zeuxisoo/slim-whoops": "0.5.*",
         "mongodb/mongodb": "^1.0.0",
         "tuupola/slim-jwt-auth": "^2.3",
-        "tuupola/slim-basic-auth": "^2.0"
+        "tuupola/slim-basic-auth": "^2.0",
+        "roave/security-advisories": "dev-master"
     }
 }
