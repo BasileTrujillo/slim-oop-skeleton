@@ -41,9 +41,9 @@ A `Setup` Class is provided to help initiate MongoBD structure and creates users
 
 ## Create your project
 
-The project is available on [Packagist](https://packagist.org/packages/l0gin/slim-3-poo-skeleton), so you can create a new project with the following command: 
+The project is available on [Packagist](https://packagist.org/packages/l0gin/slim-oop-skeleton), so you can create a new project with the following command: 
 
-    $ composer create-project -n -s dev l0gin/slim-3-poo-skeleton my-app
+    $ composer create-project -n -s dev l0gin/slim-oop-skeleton my-app
 
 ## Run it
 
