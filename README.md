@@ -1,11 +1,10 @@
-# Slim 3 POO Skeleton
+# Slim 3 OOP Skeleton
 
-[![License](http://poser.pugx.org/l0gin/slim-3-poo-skeleton/license?format=flat)](https://packagist.org/packages/l0gin/slim-3-poo-skeleton)
-[![Latest Stable Version](http://poser.pugx.org/l0gin/slim-3-poo-skeleton/v/stable?format=flat)](https://packagist.org/packages/l0gin/slim-3-poo-skeleton)
-[![Total Downloads](http://poser.pugx.org/l0gin/slim-3-poo-skeleton/downloads?format=flat)](https://packagist.org/packages/l0gin/slim-3-poo-skeleton)
-[![Latest Unstable Version](http://poser.pugx.org/l0gin/slim-3-poo-skeleton/v/unstable?format=flat)](https://packagist.org/packages/l0gin/slim-3-poo-skeleton)
+[![License](http://poser.pugx.org/l0gin/slim-oop-skeleton/license?format=flat)](https://packagist.org/packages/l0gin/slim-oop-skeleton)
+[![Latest Stable Version](http://poser.pugx.org/l0gin/slim-oop-skeleton/v/stable?format=flat)](https://packagist.org/packages/l0gin/slim-oop-skeleton)
+[![Total Downloads](http://poser.pugx.org/l0gin/slim-oop-skeleton/downloads?format=flat)](https://packagist.org/packages/l0gin/slim-oop-skeleton)
 
-This is a full POO skeleton project for Slim 3 that includes the following usefull dependencies / middlewares :
+This is a full OOP skeleton project for Slim 3 that includes the following usefull dependencies / middlewares :
 
 * [Twig](http://twig.sensiolabs.org/)
 * [Slim Flash Messages](https://github.com/slimphp/Slim-Flash) 

@@ -4,4 +4,4 @@ node_modules/
 /log/*
 /cache/*
 !.keepme
-.idea/
+.idea
