@@ -1,0 +1,18 @@
+version: '2'
+services:
+  nginx:
+    build: docker/nginx
+    links:
+      - phpfpm
+    ports:
+      - "8080:80"
+    volumes:
+      - ./config/nginx:/etc/nginx
+      - ./log/nginx:/var/log/nginx
+      - ../:/home/http
+  phpfpm:
+    build: docker/phpfpm
+    ports:
+      - 9070
+    volumes:
+      - ../:/home/http
