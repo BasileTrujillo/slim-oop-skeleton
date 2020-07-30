@@ -25,7 +25,7 @@
         "monolog/monolog": "^1.13",
         "php-middleware/php-debug-bar": "^1.1",
         "league/climate": "^3.2",
-        "zeuxisoo/slim-whoops": "0.5.*",
+        "zeuxisoo/slim-whoops": "0.6.*",
         "mongodb/mongodb": "^1.0.0",
         "tuupola/slim-jwt-auth": "^2.3",
         "tuupola/slim-basic-auth": "^2.0",
